@@ -32,7 +32,7 @@ module Gruf
         host: host,
         port: port,
         verbose: verbosity.to_i,
-        encryption: ::LightStep::Transport::HTTPJSON::ENCRYPTION_NONE,
+        encryption: ::LightStep::Transport::HTTPJSON::ENCRYPTION_TLS,
         access_token: access_token
       )
       ::LightStep.logger = Gruf.logger

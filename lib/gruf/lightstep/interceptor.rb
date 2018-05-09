@@ -27,7 +27,6 @@ module Gruf
         Gruf.logger.debug "[gruf-lightstep] Tracing #{request.method_key}"
         result = yield
         span.finish
-        # LightStep.instance.flush
         Gruf.logger.debug '[gruf-lightstep] Span finished.'
         Gruf.logger.debug span.to_h.inspect
         result
