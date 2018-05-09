@@ -26,11 +26,23 @@ module Gruf
         tracer.enable
         ctx = tracer.extract(LightStep::Tracer::FORMAT_TEXT_MAP, request_method.headers)
         span = ::LightStep.start_span(request.method_name, child_of: ctx)
-        result = yield
-        span.log(event: request.method_key)
-        span.finish
-        LightStep.flush
-        tracer.flush
+        span.set_tag('grpc.method_key', request.method_key)
+        span.set_tag('grpc.request_class', request.request_class)
+        span.set_tag('grpc.service_key', request.service_key)
+
+        begin
+          result = yield
+          span.finish
+        rescue StandardError => e
+          if e.is_a?(::GRPC::BadStatus)
+            span.set_tag('error', true)
+            span.set_tag('grpc.error', true)
+            span.set_tag('grpc.error_code', e.code)
+            span.set_tag('grpc.error_class', e.class)
+          end
+          span.finish
+          raise # passthrough, we just want the annotations
+        end
         result
       end
 
