@@ -1,6 +1,6 @@
-# gruf-zipkin - LightStep tracing for gruf
+# gruf-lightstep - LightStep tracing for gruf
 
-[![Build Status](https://travis-ci.com/bigcommerce/gruf-lightstep.svg?branch=master)](https://travis-ci.com/bigcommerce/gruf-zipkin) [![Gem Version](https://badge.fury.io/rb/gruf-zipkin.svg)](https://badge.fury.io/rb/gruf-zipkin) [![Inline docs](http://inch-ci.org/github/bigcommerce/gruf-lightstep.svg?branch=master)](http://inch-ci.org/github/bigcommerce/gruf-lightstep)
+[![Build Status](https://travis-ci.com/bigcommerce/gruf-lightstep.svg?branch=master)](https://travis-ci.com/bigcommerce/gruf-lightstep) [![Gem Version](https://badge.fury.io/rb/gruf-lightstep.svg)](https://badge.fury.io/rb/gruf-lightstep) [![Inline docs](http://inch-ci.org/github/bigcommerce/gruf-lightstep.svg?branch=master)](http://inch-ci.org/github/bigcommerce/gruf-lightstep)
 
 Adds LightStep tracing support for [gruf](https://github.com/bigcommerce/gruf) 2.0.0+.
 
