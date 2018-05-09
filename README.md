@@ -1,55 +1,32 @@
-# gruf-zipkin - Zipkin tracing for gruf
+# gruf-zipkin - LightStep tracing for gruf
 
-[![Build Status](https://travis-ci.org/bigcommerce/gruf-zipkin.svg?branch=master)](https://travis-ci.org/bigcommerce/gruf-zipkin) [![Gem Version](https://badge.fury.io/rb/gruf-zipkin.svg)](https://badge.fury.io/rb/gruf-zipkin) [![Inline docs](http://inch-ci.org/github/bigcommerce/gruf-zipkin.svg?branch=master)](http://inch-ci.org/github/bigcommerce/gruf-zipkin)
+[![Build Status](https://travis-ci.com/bigcommerce/gruf-lightstep.svg?branch=master)](https://travis-ci.com/bigcommerce/gruf-zipkin) [![Gem Version](https://badge.fury.io/rb/gruf-zipkin.svg)](https://badge.fury.io/rb/gruf-zipkin) [![Inline docs](http://inch-ci.org/github/bigcommerce/gruf-lightstep.svg?branch=master)](http://inch-ci.org/github/bigcommerce/gruf-lightstep)
 
-Adds Zipkin tracing support for [gruf](https://github.com/bigcommerce/gruf) 2.0.0+.
+Adds LightStep tracing support for [gruf](https://github.com/bigcommerce/gruf) 2.0.0+.
 
 ## Installation
 
 ```ruby
-gem 'gruf-zipkin'
+gem 'gruf-lightstep'
 ```
 
 Then in an initializer or before use, after loading gruf:
 
 ```ruby
-require 'zipkin-tracer'
-require 'gruf/zipkin'
+require 'gruf/lightstep'
 
-# Set it in the Rails config, or alternatively make this just a hash if not using Rails
-Rails.application.config.zipkin_tracer = {
-  service_name: 'my-service',
-  service_port: 1234,
-  json_api_host: 'zipkin.mydomain.com',
-  sampled_as_boolean: false,
-  sample_rate: 0.1 # 0.0 to 1.0, where 1.0 => 100% of requests 
-}
+
 Gruf.configure do |c|
-  c.interceptors.use(Gruf::Zipkin::Interceptor, Rails.application.config.zipkin_tracer)
-end
-```
 
-This assumes you have Zipkin already setup in your Ruby/Rails app via the installation 
-instructions in the [zipkin-tracer](https://github.com/openzipkin/zipkin-ruby) gem.
-
-### Rails/Rack Tracing
-
-Add this to config.ru, if using above configuration:
- 
-```ruby
-use ZipkinTracer::RackHandler, Rails.application.config.zipkin_tracer
-```
-
-## Configuration
-
-You can further customize the tracing of gruf services via the configuration:
-
-```ruby
-Gruf.configure do |c|
-  c.interceptors.use(
-    Gruf::Zipkin::Interceptor,
-    span_prefix: 'myapp'
+  require 'gruf/lightstep'
+  Gruf::Lightstep.configure(
+    component_name: ENV.fetch('LIGHTSTEP_COMPONENT_NAME', 'myapp'),
+    access_token: 'abcdefg',
+    host: 'my.lightstep.service.io',
+    port: 8080,
+    verbosity: 1
   )
+  c.interceptors.use(Gruf::Lightstep::Interceptor)
 end
 ```
 
