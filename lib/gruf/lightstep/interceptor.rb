@@ -23,13 +23,25 @@ module Gruf
       # Handle the gruf around hook and trace sampled requests
       #
       def call(&_block)
-        span = LightStep.start_span(request.method_name)
-        Gruf.logger.debug "[gruf-lightstep] Tracing #{request.method_key}"
+        tracer.enable
+        ctx = tracer.extract(LightStep::Tracer::FORMAT_TEXT_MAP, request_method.headers)
+        span = ::LightStep.start_span(request.method_name, child_of: ctx)
         result = yield
+        span.log(event: request.method_key, env: ENV)
         span.finish
-        Gruf.logger.debug '[gruf-lightstep] Span finished.'
-        Gruf.logger.debug span.to_h.inspect
+        LightStep.flush
+        tracer.flush
         result
+      end
+
+      private
+
+      def request_method
+        Gruf::Lightstep::Method.new(request.active_call, request.method_key, request.message)
+      end
+
+      def tracer
+        LightStep.instance
       end
     end
   end

@@ -15,13 +15,14 @@ Then in an initializer or before use, after loading gruf:
 ```ruby
 require 'gruf/lightstep'
 
-Gruf::Lightstep.configure(
-  component_name: 'myapp',
-  access_token: 'abcdefg',
-  host: 'my.lightstep.service.io',
-  port: 8080,
-  verbosity: 1
-)
+Gruf::Lightstep.configure do |c|
+  c.component_name = 'myapp'
+  c.access_token = 'abcdefg'
+  c.host = 'my.lightstep.service.io'
+  c.port = 8080
+  c.verbosity = 1
+end
+Gruf::Lightstep.start
 
 Gruf.configure do |c|
   c.interceptors.use(Gruf::Lightstep::Interceptor)

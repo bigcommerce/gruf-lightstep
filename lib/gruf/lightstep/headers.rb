@@ -25,12 +25,14 @@ module Gruf
       # @property [Hash<Symbol|Array<String>>] Hash mapping of metadata keys
       #
       OT_KEYS = {
-        parent_span_id: %w(x-b3-parentspanid X-B3-ParentSpanId HTTP_X_B3_PARENTSPANID),
-        span_id: %w(x-b3-spanid X-B3-SpanId HTTP_X_B3_SPANID),
-        trace_id: %w(x-b3-traceid X-B3-TraceId HTTP_X_B3_TRACEID),
-        sampled: %w(x-b3-sampled X-B3-Sampled HTTP_X_B3_SAMPLED),
-        flags: %w(x-b3-flags X-B3-Flags HTTP_X_B3_FLAGS)
+        parent_span_id: %w(ot-tracer-parentspanid OT-Tracer-ParentSpanId HTTP_X_OT_TRACER_PARENTSPANID),
+        span_id: %w(ot-tracer-spanid OT-Tracer-SpanId HTTP_X_OT_TRACER_SPANID),
+        trace_id: %w(ot-tracer-traceid OT-Tracer-TraceId HTTP_X_OT_TRACER_TRACEID),
+        sampled: %w(ot-tracer-sampled OT-Tracer-Sampled HTTP_X_OT_TRACER_SAMPLED),
+        flags: %w(ot-tracer-flags OT-Tracer-Flags HTTP_X_OT_TRACER_FLAGS)
       }.freeze
+
+      delegate :has_key?, :key?, to: :metadata
 
       ##
       # @param [GRPC::ActiveCall] active_call
@@ -48,9 +50,23 @@ module Gruf
       def value(key)
         return nil unless OT_KEYS.key?(key)
         OT_KEYS[key].each do |k|
-          return @active_call.metadata[k] if @active_call.metadata.key?(k)
+          return metadata[k] if metadata.key?(k)
         end
         nil
+      end
+
+      ##
+      # @return [Hash]
+      #
+      def metadata
+        @active_call.metadata
+      end
+
+      ##
+      # @return [Hash]
+      #
+      def to_h
+        @active_call.metadata
       end
     end
   end
