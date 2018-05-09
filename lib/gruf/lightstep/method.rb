@@ -14,7 +14,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 module Gruf
-  module Zipkin
+  module Lightstep
     ##
     # Represents a Gruf gRPC method call
     #
@@ -36,7 +36,7 @@ module Gruf
       # @return [Gruf::Zipkin::Headers]
       #
       def headers
-        @headers ||= Gruf::Zipkin::Headers.new(@active_call)
+        @headers ||= Gruf::Lightstep::Headers.new(@active_call)
       end
 
       ##

@@ -32,5 +32,5 @@ RSpec.configure do |config|
   end
   config.color = true
 
-  config.include Gruf::Zipkin::SpecHelpers
+  config.include Gruf::Lightstep::SpecHelpers
 end

@@ -13,8 +13,10 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+require 'securerandom'
+
 module Gruf
-  module Zipkin
+  module Lightstep
     ##
     # Represents a trace through Gruf and gRPC
     #
@@ -34,7 +36,7 @@ module Gruf
       }.freeze
 
       ##
-      # @param [Gruf::Zipkin::Method] method
+      # @param [Gruf::Lightstep::Method] method
       # @param [String|Symbol] service_key
       # @param [Hash] options
       #
@@ -104,7 +106,7 @@ module Gruf
             @trace_id = ::Trace::TraceId.new(tid, parent_id, span_id, sampled, flags)
           else
             # if trace_id/span_id are not present, generate a new trace
-            @trace_id = ::ZipkinTracer::TraceGenerator.new.next_trace_id
+            @trace_id = SecureRandom.uuid
           end
         end
         @trace_id

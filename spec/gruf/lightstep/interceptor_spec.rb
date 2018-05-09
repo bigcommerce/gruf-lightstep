@@ -15,7 +15,7 @@
 #
 require 'spec_helper'
 
-describe Gruf::Zipkin::Interceptor do
+describe Gruf::Lightstep::Interceptor do
   let(:service) { ThingService.new }
   let(:options) { {} }
   let(:signature) { 'get_thing' }
@@ -49,7 +49,7 @@ describe Gruf::Zipkin::Interceptor do
 
     context 'when the trace is sampled' do
       it 'should trace the request' do
-        expect(ZipkinTracer::TraceContainer).to receive(:with_trace_id).with(trace.trace_id).and_call_original
+        expect(SecureRandom).to receive(:uuid).with(trace.trace_id).and_call_original
         expect(trace).to receive(:trace!)
         subject
       end
@@ -58,7 +58,7 @@ describe Gruf::Zipkin::Interceptor do
     context 'when the trace is not sampled' do
       let(:sampled) { false }
       it 'should not trace the request' do
-        expect(ZipkinTracer::TraceContainer).to_not receive(:with_trace_id)
+        expect(SecureRandom).to_not receive(:uuid)
         subject
       end
     end

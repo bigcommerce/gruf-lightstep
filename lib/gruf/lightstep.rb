@@ -16,6 +16,9 @@
 require 'lightstep'
 require_relative 'lightstep/version'
 require_relative 'lightstep/interceptor'
+require_relative 'lightstep/headers'
+require_relative 'lightstep/method'
+require_relative 'lightstep/trace'
 
 ##
 # Gruf main base module
@@ -24,5 +27,20 @@ module Gruf
   # Lightstep gruf module
   #
   module Lightstep
+    def self.configure(host:, port:, component_name:, access_token:, verbosity: 3)
+      transport = ::LightStep::Transport::HTTPJSON.new(
+        host: host,
+        port: port,
+        verbose: verbosity.to_i,
+        encryption: ::LightStep::Transport::HTTPJSON::ENCRYPTION_NONE,
+        access_token: access_token
+      )
+      ::LightStep.logger = Gruf.logger
+      ::LightStep.configure(
+        component_name: component_name,
+        transport: transport
+      )
+      ::LightStep.instance.enable
+    end
   end
 end

@@ -14,11 +14,38 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 require 'spec_helper'
+require 'securerandom'
 
-describe Gruf::Zipkin do
-  describe 'version' do
-    it 'should have a version' do
-      expect(Gruf::Zipkin::VERSION).to be_a(String)
+describe Gruf::Lightstep::Headers do
+  let(:active_call) { grpc_active_call(metadata: metadata) }
+  let(:metadata) { {} }
+  let(:headers) { described_class.new(active_call) }
+
+  describe '.value' do
+    let(:val) { SecureRandom.uuid }
+
+    described_class::OT_KEYS.each do |name, keys|
+      context "when checking for the #{name} header value" do
+        subject { headers.value(name) }
+
+        keys.each do |key|
+          context "when the key #{key} is set" do
+            let(:metadata) { { key.to_s => val } }
+
+            it 'should return the value' do
+              expect(subject).to eq val
+            end
+          end
+
+          context "when the key #{key} is not set" do
+            let(:metadata) { { "#{key}_nope" => val } }
+
+            it 'should return nil' do
+              expect(subject).to be_nil
+            end
+          end
+        end
+      end
     end
   end
 end

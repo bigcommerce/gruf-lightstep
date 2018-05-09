@@ -14,38 +14,25 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 require 'spec_helper'
-require 'securerandom'
 
-describe Gruf::Zipkin::Headers do
-  let(:active_call) { grpc_active_call(metadata: metadata) }
-  let(:metadata) { {} }
-  let(:headers) { described_class.new(active_call) }
+describe Gruf::Lightstep::Method do
+  let(:active_call) { grpc_active_call }
+  let(:signature) { 'get_thing' }
+  let(:request) { grpc_request }
 
-  describe '.value' do
-    let(:val) { SecureRandom.uuid }
+  let(:method) { described_class.new(active_call, signature, request) }
 
-    described_class::ZIPKIN_KEYS.each do |name, keys|
-      context "when checking for the #{name} header value" do
-        subject { headers.value(name) }
+  describe '.request_class' do
+    subject { method.request_class }
+    it 'should return the class name of the passed request' do
+      expect(subject).to eq 'ThingRequest'
+    end
+  end
 
-        keys.each do |key|
-          context "when the key #{key} is set" do
-            let(:metadata) { { key.to_s => val } }
-
-            it 'should return the value' do
-              expect(subject).to eq val
-            end
-          end
-
-          context "when the key #{key} is not set" do
-            let(:metadata) { { "#{key}_nope" => val } }
-
-            it 'should return nil' do
-              expect(subject).to be_nil
-            end
-          end
-        end
-      end
+  describe '.headers' do
+    subject { method.headers }
+    it 'should return a headers object' do
+      expect(subject).to be_a(Gruf::Lightstep::Headers)
     end
   end
 end

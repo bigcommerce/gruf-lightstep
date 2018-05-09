@@ -16,27 +16,21 @@
 module Gruf
   module Lightstep
     ##
-    # Intercepts calls to provide Zipkin tracing
+    # Intercepts calls to provide Lightstep tracing
     #
     class Interceptor < Gruf::Interceptors::ServerInterceptor
       ##
       # Handle the gruf around hook and trace sampled requests
       #
-      def call(&block)
-        configure!
-        span = LightStep.start_span(request.method_key)
+      def call(&_block)
+        span = LightStep.start_span(request.method_name)
+        Gruf.logger.debug "[gruf-lightstep] Tracing #{request.method_key}"
         result = yield
         span.finish
+        # LightStep.instance.flush
+        Gruf.logger.debug '[gruf-lightstep] Span finished.'
+        Gruf.logger.debug span.to_h.inspect
         result
-      end
-
-      def configure!
-        unless @configured
-          LightStep.logger = Gruf.logger
-          LightStep.configure(component_name: options[:component_name], access_token: options[:access_token])
-          Gruf.logger.info "LightStep configured for #{options[:component_name]}"
-        end
-        @configured = true
       end
     end
   end

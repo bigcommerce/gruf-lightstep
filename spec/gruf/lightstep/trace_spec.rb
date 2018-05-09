@@ -15,7 +15,7 @@
 #
 require 'spec_helper'
 
-describe Gruf::Zipkin::Trace do
+describe Gruf::Lightstep::Trace do
   let(:metadata) { {} }
   let(:method) { grpc_method(metadata: metadata) }
   let(:options) { {} }
@@ -26,7 +26,7 @@ describe Gruf::Zipkin::Trace do
 
     context 'with no headers' do
       it 'should return a new trace id' do
-        expect_any_instance_of(::ZipkinTracer::TraceGenerator).to receive(:next_trace_id).and_call_original
+        expect_any_instance_of(SecureRandom).to receive(:uuid).and_call_original
         expect(subject).to be_a(::Trace::TraceId)
       end
     end
@@ -68,7 +68,7 @@ describe Gruf::Zipkin::Trace do
       } }
 
       it 'should ignore it and build a new span' do
-        expect_any_instance_of(::ZipkinTracer::TraceGenerator).to receive(:next_trace_id).and_call_original
+        expect_any_instance_of(::SecureRandom).to receive(:uuid).and_call_original
         expect(subject).to be_a(::Trace::TraceId)
         expect(subject.trace_id.to_i).to_not eq ::Trace::SpanId.from_value(metadata['X-B3-TraceId']).to_i
       end
@@ -80,7 +80,7 @@ describe Gruf::Zipkin::Trace do
       } }
 
       it 'should ignore it and build a new span' do
-        expect_any_instance_of(::ZipkinTracer::TraceGenerator).to receive(:next_trace_id).and_call_original
+        expect_any_instance_of(::SecureRandom).to receive(:uuid).and_call_original
         expect(subject).to be_a(::Trace::TraceId)
         expect(subject.trace_id.to_i).to_not eq ::Trace::SpanId.from_value(metadata['X-B3-SpanId']).to_i
       end
