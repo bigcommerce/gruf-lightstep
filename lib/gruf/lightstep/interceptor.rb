@@ -27,7 +27,7 @@ module Gruf
         ctx = tracer.extract(LightStep::Tracer::FORMAT_TEXT_MAP, request_method.headers)
         span = ::LightStep.start_span(request.method_name, child_of: ctx)
         result = yield
-        span.log(event: request.method_key, env: ENV)
+        span.log(event: request.method_key)
         span.finish
         LightStep.flush
         tracer.flush
