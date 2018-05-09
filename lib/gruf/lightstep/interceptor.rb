@@ -30,9 +30,14 @@ module Gruf
         span.set_tag('grpc.request_class', request.request_class)
         span.set_tag('grpc.service_key', request.service_key)
 
+        existing_parent = LightStep::Tracer.active_span
+        LightStep::Tracer.active_span = span # set as global active span so other tracers can manage this
+
         begin
           result = yield
           span.finish
+          LightStep::Tracer.active_span = existing_parent
+          result
         rescue StandardError => e
           if e.is_a?(::GRPC::BadStatus)
             span.set_tag('error', true)
@@ -41,6 +46,7 @@ module Gruf
             span.set_tag('grpc.error_class', e.class)
           end
           span.finish
+          LightStep::Tracer.active_span = existing_parent
           raise # passthrough, we just want the annotations
         end
         result

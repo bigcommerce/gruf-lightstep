@@ -51,6 +51,14 @@ module Gruf
 end
 
 module LightStep
+  class Tracer
+    class << self
+      attr_accessor :active_span
+    end
+  end
+end
+
+module LightStep
   ##
   # Monkey patch of the LightStep library to make it not swallow reporting errors
   #
