@@ -16,9 +16,9 @@
 module Gruf
   module Lightstep
     ##
-    # Intercepts calls to provide Lightstep tracing
+    # Intercepts inbound calls to provide LightStep tracing
     #
-    class Interceptor < Gruf::Interceptors::ServerInterceptor
+    class ServerInterceptor < Gruf::Interceptors::ServerInterceptor
       ##
       # Handle the gruf around hook and trace sampled requests
       #

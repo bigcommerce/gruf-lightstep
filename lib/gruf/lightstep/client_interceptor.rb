@@ -13,20 +13,40 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-require 'bigcommerce/lightstep'
-require_relative 'lightstep/version'
-require_relative 'lightstep/configuration'
-require_relative 'lightstep/server_interceptor'
-require_relative 'lightstep/headers'
-require_relative 'lightstep/method'
-
-##
-# Gruf main base module
 module Gruf
-  ##
-  # Lightstep gruf module
-  #
   module Lightstep
-    extend Configuration
+    ##
+    # Intercepts outbound calls to provide LightStep tracing
+    #
+    class ClientInterceptor < Gruf::Interceptors::ClientInterceptor
+      def call(request_context:)
+        span = active_span
+        if span
+          span_data = span.to_h
+          logger.debug "[gruf-lightstep] Injecting current active span #{span_data[:span_guid]} into outbound request context for #{request_context.method_name}"
+          request_context.metadata['ot-tracer-spanid'] = span_data[:span_guid]
+          request_context.metadata['ot-tracer-traceid'] = span_data[:trace_guid]
+          request_context.metadata['ot-tracer-sampled'] = 1
+        end
+
+        yield
+      end
+
+      private
+
+      ##
+      # @return [::LightStep::Span|NilClass]
+      #
+      def active_span
+        tracer = ::Bigcommerce::Lightstep::Tracer.instance
+        return unless tracer
+
+        span = tracer.active_span
+        return unless span && span.is_a?(::LightStep::Span)
+
+        span
+      end
+    end
   end
 end
+
