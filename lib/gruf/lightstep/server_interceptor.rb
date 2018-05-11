@@ -26,7 +26,7 @@ module Gruf
         result = nil
 
         tracer = ::Bigcommerce::Lightstep::Tracer.instance
-        tracer.start_span(request.method_name, context: request_method.headers) do |span|
+        tracer.start_span(request.method_name, context: request_method.headers.to_h) do |span|
           span.set_tag('grpc.method_key', request.method_key)
           span.set_tag('grpc.request_class', request.request_class)
           span.set_tag('grpc.service_key', request.service_key)
