@@ -33,10 +33,6 @@ describe Gruf::Lightstep::Interceptor do
   let(:errors) { Gruf::Error.new }
   let(:interceptor) { described_class.new(request, errors, options.merge(sampled_as_boolean: false)) }
 
-  before do
-    allow(::Trace::Endpoint).to receive(:local_endpoint).and_return(nil)
-  end
-
   describe '.call' do
     let(:trace) { grpc_trace }
     let(:sampled) { true }

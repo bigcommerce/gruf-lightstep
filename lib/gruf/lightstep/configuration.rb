@@ -21,12 +21,6 @@ module Gruf
     #
     module Configuration
       VALID_CONFIG_KEYS = {
-        component_name: '',
-        access_token: '',
-        host: '',
-        port: 443,
-        ssl_verify_peer: true,
-        verbosity: 3
       }.freeze
 
       attr_accessor *VALID_CONFIG_KEYS.keys
@@ -70,12 +64,6 @@ module Gruf
         VALID_CONFIG_KEYS.each do |k, v|
           send("#{k}=".to_sym, v)
         end
-        self.component_name = ENV.fetch('LIGHTSTEP_COMPONENT_NAME', '')
-        self.access_token = ENV.fetch('LIGHTSTEP_ACCESS_TOKEN', '')
-        self.host = ENV.fetch('LIGHTSTEP_HOST', '')
-        self.port = ENV.fetch('LIGHTSTEP_PORT', 443).to_i
-        self.ssl_verify_peer = ENV.fetch('LIGHTSTEP_SSL_VERIFY_PEER', true)
-        self.verbosity = ENV.fetch('LIGHTSTEP_VERBOSITY', 1).to_i
       end
 
       ##

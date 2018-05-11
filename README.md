@@ -7,6 +7,7 @@ Adds LightStep tracing support for [gruf](https://github.com/bigcommerce/gruf) 2
 ## Installation
 
 ```ruby
+gem 'bc-lightstep-ruby', git: 'git@github.com:bigcommerce/bc-lightstep-ruby'
 gem 'gruf-lightstep'
 ```
 

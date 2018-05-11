@@ -13,14 +13,12 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-require 'lightstep'
+require 'bigcommerce/lightstep'
 require_relative 'lightstep/version'
 require_relative 'lightstep/configuration'
 require_relative 'lightstep/interceptor'
 require_relative 'lightstep/headers'
 require_relative 'lightstep/method'
-require_relative 'lightstep/trace'
-require_relative 'lightstep/transport'
 
 ##
 # Gruf main base module
@@ -46,61 +44,6 @@ module Gruf
         transport: transport
       )
       ::LightStep.instance.enable
-    end
-  end
-end
-
-module LightStep
-  class Tracer
-    class << self
-      attr_accessor :active_span
-    end
-  end
-end
-
-module LightStep
-  ##
-  # Monkey patch of the LightStep library to make it not swallow reporting errors
-  #
-  class Reporter
-    def flush
-      reset_on_fork
-
-      return if @span_records.empty?
-
-      now = LightStep.micros(Time.now)
-
-      span_records = @span_records.slice!(0, @span_records.length)
-      dropped_spans = 0
-      @dropped_spans.update do |old|
-        dropped_spans = old
-        0
-      end
-
-      report_request = {
-        runtime: @runtime,
-        oldest_micros: @report_start_time,
-        youngest_micros: now,
-        span_records: span_records,
-        internal_metrics: {
-          counts: [
-            { name: 'spans.dropped', int64_value: dropped_spans }
-          ]
-        }
-      }
-
-      @report_start_time = now
-
-      Gruf.logger.debug 'Sending request to lightstep collector'
-
-      begin
-        @transport.report(report_request)
-      rescue StandardError => e
-        Gruf.logger.error "Failed to send request to collector: #{e.message}"
-        # an error occurs, add the previous dropped_spans and count of spans
-        # that would have been recorded
-        @dropped_spans.increment(dropped_spans + span_records.length)
-      end
     end
   end
 end

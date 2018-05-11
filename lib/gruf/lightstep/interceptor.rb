@@ -23,31 +23,25 @@ module Gruf
       # Handle the gruf around hook and trace sampled requests
       #
       def call(&_block)
-        tracer.enable
-        ctx = tracer.extract(LightStep::Tracer::FORMAT_TEXT_MAP, request_method.headers)
-        span = ::LightStep.start_span(request.method_name, child_of: ctx)
-        span.set_tag('grpc.method_key', request.method_key)
-        span.set_tag('grpc.request_class', request.request_class)
-        span.set_tag('grpc.service_key', request.service_key)
+        result = nil
 
-        existing_parent = LightStep::Tracer.active_span
-        LightStep::Tracer.active_span = span # set as global active span so other tracers can manage this
+        tracer = ::Bigcommerce::Lightstep::Tracer.instance
+        tracer.start_span(request.method_name, context: request_method.headers) do |span|
+          span.set_tag('grpc.method_key', request.method_key)
+          span.set_tag('grpc.request_class', request.request_class)
+          span.set_tag('grpc.service_key', request.service_key)
 
-        begin
-          result = yield
-          span.finish
-          LightStep::Tracer.active_span = existing_parent
-          result
-        rescue StandardError => e
-          if e.is_a?(::GRPC::BadStatus)
-            span.set_tag('error', true)
-            span.set_tag('grpc.error', true)
-            span.set_tag('grpc.error_code', e.code)
-            span.set_tag('grpc.error_class', e.class)
+          begin
+            result = yield
+          rescue StandardError => e
+            if e.is_a?(::GRPC::BadStatus)
+              span.set_tag('error', true)
+              span.set_tag('grpc.error', true)
+              span.set_tag('grpc.error_code', e.code)
+              span.set_tag('grpc.error_class', e.class)
+            end
+            raise # passthrough, we just want the annotations
           end
-          span.finish
-          LightStep::Tracer.active_span = existing_parent
-          raise # passthrough, we just want the annotations
         end
         result
       end
@@ -56,10 +50,6 @@ module Gruf
 
       def request_method
         Gruf::Lightstep::Method.new(request.active_call, request.method_key, request.message)
-      end
-
-      def tracer
-        LightStep.instance
       end
     end
   end
