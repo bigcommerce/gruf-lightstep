@@ -16,6 +16,7 @@
 require 'bigcommerce/lightstep'
 require_relative 'lightstep/version'
 require_relative 'lightstep/configuration'
+require_relative 'lightstep/client_interceptor'
 require_relative 'lightstep/server_interceptor'
 require_relative 'lightstep/headers'
 require_relative 'lightstep/method'
