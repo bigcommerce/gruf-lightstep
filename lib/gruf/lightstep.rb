@@ -28,22 +28,5 @@ module Gruf
   #
   module Lightstep
     extend Configuration
-
-    def self.start
-      transport = ::Gruf::Lightstep::Transport.new(
-        host: host,
-        port: port.to_i,
-        verbose: verbosity.to_i,
-        encryption: port.to_i == 443 ? ::Gruf::Lightstep::Transport::ENCRYPTION_TLS : ::Gruf::Lightstep::Transport::ENCRYPTION_NONE,
-        ssl_verify_peer: ssl_verify_peer,
-        access_token: access_token
-      )
-      ::LightStep.logger = Gruf.logger
-      ::LightStep.configure(
-        component_name: component_name,
-        transport: transport
-      )
-      ::LightStep.instance.enable
-    end
   end
 end
