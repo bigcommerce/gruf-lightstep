@@ -24,10 +24,28 @@ Gruf::Lightstep.configure do |c|
   c.verbosity = 1
 end
 Gruf::Lightstep.start
+```
 
+Then after, in your gruf initializer:
+
+```ruby
 Gruf.configure do |c|
-  c.interceptors.use(Gruf::Lightstep::Interceptor)
+  c.interceptors.use(Gruf::Lightstep::ServerInterceptor)
 end
+```
+
+### Client Interceptors
+
+To automatically propagate the trace context outbound, in your Gruf clients, pass the client interceptor
+to your `Gruf::Client` initializer:
+
+```ruby
+Gruf::Client.new(
+  service: MyService,
+  client_options: {
+    interceptors: [Gruf::Lightstep::ClientInterceptor.new]
+  }
+)
 ```
 
 ## License
