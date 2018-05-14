@@ -49,4 +49,3 @@ module Gruf
     end
   end
 end
-

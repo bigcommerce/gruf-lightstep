@@ -15,8 +15,8 @@
 #
 source 'https://rubygems.org'
 
-gem 'gruf', '~> 2.3'
 gem 'bc-lightstep-ruby', git: 'git@github.com:bigcommerce/bc-lightstep-ruby', tag: 'v1.0.0'
+gem 'gruf', '~> 2.3'
 
 group :development do
   gem 'bundler-audit'
