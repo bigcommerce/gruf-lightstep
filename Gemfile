@@ -15,7 +15,7 @@
 #
 source 'https://rubygems.org'
 
-gem 'bc-lightstep-ruby', git: 'git@github.com:bigcommerce/bc-lightstep-ruby', tag: 'v1.0.0'
+gem 'bc-lightstep-ruby', git: 'git@github.com:bigcommerce/bc-lightstep-ruby', tag: 'v1.0.1'
 gem 'gruf', '~> 2.3'
 
 group :development do
