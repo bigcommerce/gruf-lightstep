@@ -31,11 +31,6 @@ module Gruf
         double(:active_call, metadata: metadata, output_metadata: output_metadata)
       end
 
-      def grpc_trace(metadata: {}, service_key: 'thing_service', signature: 'get_thing', options: {})
-        method = grpc_method(metadata: metadata, signature: signature)
-        Gruf::Lightstep::Trace.new(method, service_key, options)
-      end
-
       def grpc_request
         ThingRequest.new
       end

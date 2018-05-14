@@ -15,7 +15,7 @@
 #
 require 'spec_helper'
 
-describe Gruf::Lightstep::Interceptor do
+describe Gruf::Lightstep::ServerInterceptor do
   let(:service) { ThingService.new }
   let(:options) { {} }
   let(:signature) { 'get_thing' }
@@ -27,36 +27,20 @@ describe Gruf::Lightstep::Interceptor do
       service: ThingService,
       rpc_desc: nil,
       active_call: active_call,
-      message: grpc_request
+      message: grpc_request,
+      method_name: 'ThingService.get_thing'
     )
   end
   let(:errors) { Gruf::Error.new }
   let(:interceptor) { described_class.new(request, errors, options.merge(sampled_as_boolean: false)) }
 
   describe '.call' do
-    let(:trace) { grpc_trace }
-    let(:sampled) { true }
+    let(:tracer) { ::Bigcommerce::Lightstep::Tracer.instance }
     subject { interceptor.call { true } }
 
-    before do
-      allow(interceptor).to receive(:build_trace).and_return(trace)
-      allow(trace).to receive(:sampled?).and_return(sampled)
-    end
-
-    context 'when the trace is sampled' do
-      it 'should trace the request' do
-        expect(SecureRandom).to receive(:uuid).with(trace.trace_id).and_call_original
-        expect(trace).to receive(:trace!)
-        subject
-      end
-    end
-
-    context 'when the trace is not sampled' do
-      let(:sampled) { false }
-      it 'should not trace the request' do
-        expect(SecureRandom).to_not receive(:uuid)
-        subject
-      end
+    it 'should trace the request' do
+      expect(tracer).to receive(:start_span).once
+      subject
     end
   end
 end
