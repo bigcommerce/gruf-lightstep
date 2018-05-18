@@ -23,6 +23,8 @@ module Gruf
       # Handle the gruf around hook and trace sampled requests
       #
       def call(&_block)
+        return yield if options.fetch(:ignore_methods, []).include?(request.method_name)
+
         result = nil
 
         tracer = ::Bigcommerce::Lightstep::Tracer.instance
