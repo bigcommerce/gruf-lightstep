@@ -20,6 +20,7 @@ describe Gruf::Lightstep::ServerInterceptor do
   let(:options) { {} }
   let(:signature) { 'get_thing' }
   let(:active_call) { grpc_active_call }
+  let(:grpc_method_name) { 'ThingService.get_thing' }
   let(:request) do
     double(
       :request,
@@ -28,11 +29,11 @@ describe Gruf::Lightstep::ServerInterceptor do
       rpc_desc: nil,
       active_call: active_call,
       message: grpc_request,
-      method_name: 'ThingService.get_thing'
+      method_name: grpc_method_name
     )
   end
   let(:errors) { Gruf::Error.new }
-  let(:interceptor) { described_class.new(request, errors, options.merge(sampled_as_boolean: false)) }
+  let(:interceptor) { described_class.new(request, errors, options) }
 
   describe '.call' do
     let(:tracer) { ::Bigcommerce::Lightstep::Tracer.instance }
@@ -41,6 +42,15 @@ describe Gruf::Lightstep::ServerInterceptor do
     it 'should trace the request' do
       expect(tracer).to receive(:start_span).once
       subject
+    end
+
+    context 'with an ignored method' do
+      let(:options) { { ignore_methods: [grpc_method_name] } }
+
+      it 'should not trace the request' do
+        expect(tracer).to_not receive(:start_span)
+        subject
+      end
     end
   end
 end

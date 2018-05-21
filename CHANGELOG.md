@@ -1,5 +1,9 @@
 Changelog for the gruf-zipkin gem.
 
+h3. Pending Release
+
+- Add ignore_methods as an option to server interceptor
+
 h3. 1.0.0
 
 - Support for gruf 2.0.0
