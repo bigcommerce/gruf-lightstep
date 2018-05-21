@@ -2,7 +2,10 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+h3. 1.0.2
+
 - Add ignore_methods as an option to server interceptor
+- Standardize span tags according to BC spec
 
 h3. 1.0.0
 
