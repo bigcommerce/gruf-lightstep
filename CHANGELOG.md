@@ -2,6 +2,10 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+h3. 1.0.3
+
+- Ensure gRPC requests are always the root span
+
 h3. 1.0.2
 
 - Add ignore_methods as an option to server interceptor

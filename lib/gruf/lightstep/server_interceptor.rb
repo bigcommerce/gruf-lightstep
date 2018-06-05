@@ -28,6 +28,7 @@ module Gruf
         result = nil
 
         tracer = ::Bigcommerce::Lightstep::Tracer.instance
+        tracer.clear_active_span! # because we're always starting from the top on a gRPC boundary
         tracer.start_span(request.method_name, context: request_method.headers.to_h) do |span|
           span.set_tag('grpc.method', request.method_key)
           span.set_tag('grpc.request_class', request.request_class)
