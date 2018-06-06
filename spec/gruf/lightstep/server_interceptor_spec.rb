@@ -28,6 +28,8 @@ describe Gruf::Lightstep::ServerInterceptor do
       service: ThingService,
       rpc_desc: nil,
       active_call: active_call,
+      request_class: ThingRequest,
+      service_key: 'thing_service.thing_request',
       message: grpc_request,
       method_name: grpc_method_name
     )
@@ -50,6 +52,39 @@ describe Gruf::Lightstep::ServerInterceptor do
       it 'should not trace the request' do
         expect(tracer).to_not receive(:start_span)
         subject
+      end
+    end
+
+    context 'when it errors' do
+      let(:exception) { GRPC::Internal.new }
+      let(:span) { double(:span, set_tag: true) }
+      subject { interceptor.call { raise exception } }
+
+      it 'should trace the request with a tag' do
+        expect {
+          expect(tracer).to receive(:start_span).once.and_yield(span)
+          expect(span).to receive(:set_tag).with('error', true).ordered
+          expect(span).to receive(:set_tag).with('grpc.error', true).ordered
+          expect(span).to receive(:set_tag).with('grpc.error_code', exception.code).ordered
+          expect(span).to receive(:set_tag).with('grpc.error_class', exception.class).ordered
+
+          subject
+        }.to raise_error(exception)
+      end
+
+      context 'but the error class is not in the error_classes option' do
+        let(:exception) { GRPC::NotFound.new }
+        it 'should trace the request as a grpc error but not a span error' do
+          expect {
+            expect(tracer).to receive(:start_span).once.and_yield(span)
+            expect(span).to_not receive(:set_tag).with('error', true)
+            expect(span).to receive(:set_tag).with('grpc.error', true).ordered
+            expect(span).to receive(:set_tag).with('grpc.error_code', exception.code).ordered
+            expect(span).to receive(:set_tag).with('grpc.error_class', exception.class).ordered
+
+            subject
+          }.to raise_error(exception)
+        end
       end
     end
   end
