@@ -37,12 +37,10 @@ module Gruf
           begin
             result = yield
           rescue StandardError => e
-            if e.is_a?(::GRPC::BadStatus)
-              span.set_tag('error', true)
-              span.set_tag('grpc.error', true)
-              span.set_tag('grpc.error_code', e.code)
-              span.set_tag('grpc.error_class', e.class)
-            end
+            span.set_tag('error', true) if error?(e)
+            span.set_tag('grpc.error', true)
+            span.set_tag('grpc.error_code', e.code)
+            span.set_tag('grpc.error_class', e.class)
             raise # passthrough, we just want the annotations
           end
         end
@@ -51,8 +49,25 @@ module Gruf
 
       private
 
+      ##
+      # @return [Gruf::Lightstep::Method]
+      #
       def request_method
         Gruf::Lightstep::Method.new(request.active_call, request.method_key, request.message)
+      end
+
+      ##
+      # @return [Boolean]
+      #
+      def error?(exception)
+        error_classes.include?(exception.class.to_s)
+      end
+
+      ##
+      # @return [Array]
+      #
+      def error_classes
+        options.fetch(:error_classes, %w(GRPC::Unknown GRPC::Internal GRPC::DataLoss GRPC::FailedPrecondition GRPC::Unavailable GRPC::DeadlineExceeded GRPC::Cancelled))
       end
     end
   end

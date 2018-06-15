@@ -2,6 +2,10 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+h3. 1.1.0
+
+- Exclude client validation errors from being "errors"
+
 h3. 1.0.3
 
 - Ensure gRPC requests are always the root span
