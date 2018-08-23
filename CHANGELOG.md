@@ -2,6 +2,11 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+h3. 1.1.1
+
+- Bump bc-lightstep-ruby to 1.1.5
+- Bump gruf minimum version to 2.4
+
 h3. 1.1.0
 
 - Exclude client validation errors from being "errors"
