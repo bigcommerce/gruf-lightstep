@@ -27,12 +27,19 @@ module Gruf
 
         result = nil
 
+        whitelist = options.fetch(:whitelist, []).map(&:to_s).map(&:to_sym)
+        params = request_message_params
+
         tracer = ::Bigcommerce::Lightstep::Tracer.instance
         tracer.clear_active_span! # because we're always starting from the top on a gRPC boundary
         tracer.start_span(request.method_name, context: request_method.headers.to_h) do |span|
           span.set_tag('grpc.method', request.method_key)
           span.set_tag('grpc.request_class', request.request_class)
           span.set_tag('grpc.service', request.service_key)
+
+          whitelist.each do |param|
+            span.set_tag(param.to_s, params[param]) if params.key?(param)
+          end
 
           begin
             result = yield
@@ -54,6 +61,14 @@ module Gruf
       #
       def request_method
         Gruf::Lightstep::Method.new(request.active_call, request.method_key, request.message)
+      end
+
+      ##
+      # @return [Hash]
+      #
+      def request_message_params
+        return {} if request.client_streamer? || !request.message.respond_to?(:to_h)
+        request.message.to_h
       end
 
       ##

@@ -13,7 +13,19 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-class ThingRequest; end
+class ThingRequest
+  attr_reader :uuid, :kind
+
+  def initialize(uuid, kind)
+    @uuid = uuid
+    @kind = kind
+  end
+
+  def to_h
+    {uuid: uuid, kind: kind}
+  end
+end
+
 class ThingService; end
 
 module Gruf
@@ -32,7 +44,7 @@ module Gruf
       end
 
       def grpc_request
-        ThingRequest.new
+        ThingRequest.new('some uuid', 'some kind')
       end
     end
   end

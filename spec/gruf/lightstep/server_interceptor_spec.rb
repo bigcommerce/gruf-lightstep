@@ -41,6 +41,11 @@ describe Gruf::Lightstep::ServerInterceptor do
     let(:tracer) { ::Bigcommerce::Lightstep::Tracer.instance }
     subject { interceptor.call { true } }
 
+    before do
+      allow(request).to receive(:client_streamer?).and_return(false)
+      allow(request.message).to receive(:respond_to?).and_call_original
+    end
+
     it 'should trace the request' do
       expect(tracer).to receive(:start_span).once
       subject
@@ -85,6 +90,18 @@ describe Gruf::Lightstep::ServerInterceptor do
             subject
           }.to raise_error(exception)
         end
+      end
+    end
+
+    context 'with request param whitelist' do
+      let(:options) { { whitelist: ['uuid'] } }
+      let(:span) { double(:span, set_tag: true) }
+
+      it 'should only trace the uuid request param' do
+        expect(tracer).to receive(:start_span).once.and_yield(span)
+        expect(span).to receive(:set_tag).with('uuid', 'some uuid')
+        expect(span).to_not receive(:set_tag).with('kind', 'some kind')
+        subject
       end
     end
   end
