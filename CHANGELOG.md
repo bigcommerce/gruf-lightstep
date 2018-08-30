@@ -2,6 +2,8 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+- Add option to whitelist request params to lightstep as span tags
+
 h3. 1.1.1
 
 - Bump bc-lightstep-ruby to 1.1.5

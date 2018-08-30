@@ -34,6 +34,17 @@ Gruf.configure do |c|
 end
 ```
 
+It comes with a few more options as well:
+
+| Option | Description | Default |
+| ------ | ----------- | ------- |
+| whitelist | An array of parameter key names to log to lightstep. E.g. `[uuid kind]` | `[]` |
+| ignore_methods | An array of method names to ignore from logging. E.g. `['namespace.health.check']` | `[]` |
+
+It's important to maintain a safe whitelist should you decide to log parameters; gruf does no
+parameter sanitization on its own. We also recommend do not whitelist parameters that may contain
+very large values (such as binary or json data).
+
 ### Client Interceptors
 
 To automatically propagate the trace context outbound, in your Gruf clients, pass the client interceptor
