@@ -2,6 +2,10 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+h3. 1.1.2
+
+- First OSS release
+- Explicitly require bc-lightstep-ruby dependency
 - Add option to whitelist request params to lightstep as span tags
 
 h3. 1.1.1
