@@ -6,7 +6,8 @@ dist: trusty
 rvm:
   - 2.2
   - 2.3
-before_install: gem install bundler -v 1.15.1
+  - 2.4
+before_install: gem install bundler -v 1.16.4
 script: ./.travis.sh
 env:
   matrix:
