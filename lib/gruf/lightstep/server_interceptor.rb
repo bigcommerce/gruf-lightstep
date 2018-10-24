@@ -68,6 +68,7 @@ module Gruf
       #
       def request_message_params
         return {} if request.client_streamer? || !request.message.respond_to?(:to_h)
+
         request.message.to_h
       end
 

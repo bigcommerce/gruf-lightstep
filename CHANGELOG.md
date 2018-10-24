@@ -2,6 +2,8 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+- Bump bc-lightstep-ruby to 1.2.0
+
 h3. 1.1.2
 
 - First OSS release
