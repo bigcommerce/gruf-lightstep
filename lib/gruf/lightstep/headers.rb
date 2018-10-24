@@ -49,6 +49,7 @@ module Gruf
       #
       def value(key)
         return nil unless OT_KEYS.key?(key)
+
         OT_KEYS[key].each do |k|
           return metadata[k] if metadata.key?(k)
         end

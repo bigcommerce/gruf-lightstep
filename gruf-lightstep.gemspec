@@ -35,5 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.7'
   spec.add_development_dependency 'pry'
 
-  spec.add_runtime_dependency 'bc-lightstep-ruby', '~> 1.1'
+  spec.add_runtime_dependency 'bc-lightstep-ruby', '~> 1.2'
 end
