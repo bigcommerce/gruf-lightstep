@@ -15,6 +15,6 @@
 #
 module Gruf
   module Lightstep
-    VERSION = '1.1.3.pre'.freeze
+    VERSION = '1.1.3'.freeze
   end
 end
