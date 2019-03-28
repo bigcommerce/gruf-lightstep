@@ -60,8 +60,8 @@ module Gruf
       # @param [StandardError]
       # @return [Number] that maps to one of the GRCP::Core::StatusCodes or Gruf::Lightstep.default_error_code
       #
-      def code_for(e)
-        e.respond_to?(:code) ? e.code : Gruf::Lightstep.default_error_code
+      def code_for(error)
+        error.respond_to?(:code) ? error.code : Gruf::Lightstep.default_error_code
       end
 
       ##
