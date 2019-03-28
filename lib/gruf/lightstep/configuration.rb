@@ -21,6 +21,7 @@ module Gruf
     #
     module Configuration
       VALID_CONFIG_KEYS = {
+        default_error_code: 13 # GRPC::Internal
       }.freeze
 
       attr_accessor *VALID_CONFIG_KEYS.keys

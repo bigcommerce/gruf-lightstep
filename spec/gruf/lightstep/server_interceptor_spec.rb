@@ -86,6 +86,21 @@ describe Gruf::Lightstep::ServerInterceptor do
           }.to raise_error(exception)
         end
       end
+
+      context 'when it is a non-standard exception' do
+        let(:exception) { NoMethodError.new('undefined method `call` for NilClass') }
+
+        it 'should raise an error with the default error code' do
+          expect {
+            expect(tracer).to receive(:start_span).once.and_yield(span)
+            expect(span).to receive(:set_tag).with('grpc.error', true).ordered
+            expect(span).to receive(:set_tag).with('grpc.error_code', ::Gruf::Lightstep.default_error_code).ordered
+            expect(span).to receive(:set_tag).with('grpc.error_class', exception.class).ordered
+
+            subject
+          }.to raise_error(exception)
+        end
+      end
     end
   end
 end

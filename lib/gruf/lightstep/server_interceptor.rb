@@ -39,7 +39,7 @@ module Gruf
           rescue StandardError => e
             span.set_tag('error', true) if error?(e)
             span.set_tag('grpc.error', true)
-            span.set_tag('grpc.error_code', e.code)
+            span.set_tag('grpc.error_code', e.respond_to?(:code) ? e.code : ::Gruf::Lightstep.default_error_code)
             span.set_tag('grpc.error_class', e.class)
             raise # passthrough, we just want the annotations
           end

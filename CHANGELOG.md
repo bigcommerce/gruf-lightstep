@@ -2,6 +2,10 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+- Switch dependency from `lightstep` gem to `bc-lightstep-ruby` gem.
+  It was always a dependency, but now is explicit in the gemspec.
+- Handle exceptions that have no code attribute more gracefully
+
 h3. 1.1.1
 
 - Bump bc-lightstep-ruby to 1.1.5
