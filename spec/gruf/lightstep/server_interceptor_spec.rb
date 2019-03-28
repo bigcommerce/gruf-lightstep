@@ -91,6 +91,21 @@ describe Gruf::Lightstep::ServerInterceptor do
           }.to raise_error(exception)
         end
       end
+
+      context 'but the error class is not in the GRPC error' do
+        let(:exception) { NoMethodError.new('undefined method `call` for NilClass') }
+        it 'should trace the request as a non grpc error' do
+          expect {
+            expect(tracer).to receive(:start_span).once.and_yield(span)
+            expect(span).to_not receive(:set_tag).with('error', true)
+            expect(span).to receive(:set_tag).with('grpc.error', true).ordered
+            expect(span).to receive(:set_tag).with('grpc.error_code', ::Gruf::Lightstep.default_error_code).ordered
+            expect(span).to receive(:set_tag).with('grpc.error_class', exception.class).ordered
+
+            subject
+          }.to raise_error(exception)
+        end
+      end
     end
 
     context 'with request param whitelist' do

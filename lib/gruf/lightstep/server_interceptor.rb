@@ -46,7 +46,7 @@ module Gruf
           rescue StandardError => e
             span.set_tag('error', true) if error?(e)
             span.set_tag('grpc.error', true)
-            span.set_tag('grpc.error_code', e.code)
+            span.set_tag('grpc.error_code', code_for(e))
             span.set_tag('grpc.error_class', e.class)
             raise # passthrough, we just want the annotations
           end
@@ -55,6 +55,14 @@ module Gruf
       end
 
       private
+
+      ##
+      # @param [StandardError]
+      # @return [Number] that maps to one of the GRCP::Core::StatusCodes or Gruf::Lightstep.default_error_code
+      #
+      def code_for(e)
+        e.respond_to?(:code) ? e.code : Gruf::Lightstep.default_error_code
+      end
 
       ##
       # @return [Gruf::Lightstep::Method]
