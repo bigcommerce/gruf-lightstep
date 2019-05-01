@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2017-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -42,7 +44,7 @@ module Gruf
         return unless tracer
 
         span = tracer.active_span
-        return unless span && span.is_a?(::LightStep::Span)
+        return unless span&.is_a?(::LightStep::Span)
 
         span
       end
