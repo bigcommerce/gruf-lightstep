@@ -2,6 +2,8 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+h3. 1.2.0
+
 - Add `frozen_string_literal: true` to all files
 - Deprecate ruby 2.2 support
 
