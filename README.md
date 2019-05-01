@@ -1,6 +1,6 @@
 # gruf-lightstep - LightStep tracing for gruf
 
-[![Build Status](https://travis-ci.com/bigcommerce/gruf-lightstep.svg?branch=master)](https://travis-ci.com/bigcommerce/gruf-lightstep) [![Gem Version](https://badge.fury.io/rb/gruf-lightstep.svg)](https://badge.fury.io/rb/gruf-lightstep) [![Inline docs](http://inch-ci.org/github/bigcommerce/gruf-lightstep.svg?branch=master)](http://inch-ci.org/github/bigcommerce/gruf-lightstep)
+[![CircleCI](https://circleci.com/gh/bigcommerce/gruf-lightstep/tree/master.svg?style=svg)](https://circleci.com/gh/bigcommerce/gruf-lightstep/tree/master) [![Gem Version](https://badge.fury.io/rb/gruf-lightstep.svg)](https://badge.fury.io/rb/gruf-lightstep) [![Inline docs](http://inch-ci.org/github/bigcommerce/gruf-lightstep.svg?branch=master)](http://inch-ci.org/github/bigcommerce/gruf-lightstep)
 
 Adds LightStep tracing support for [gruf](https://github.com/bigcommerce/gruf) 2.0.0+.
 
