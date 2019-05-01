@@ -1,4 +1,5 @@
 AllCops:
+  TargetRubyVersion: 2.4
   Exclude:
     - spec/**/*
     - .bundle/**/*
@@ -9,38 +10,18 @@ AllCops:
     - Rakefile
     - gruf-lightstep.gemspec
 
+# Allow *VALID_CONFIG_KEYS.keys
 Lint/AmbiguousOperator:
   Enabled: false
 
+# server interceptors have higher ABC
 Metrics/AbcSize:
-  Max: 147
+  Max: 50
 
-Metrics/BlockNesting:
-  Max: 4
-
-# Configuration parameters: CountComments.
-Metrics/ClassLength:
-  Max: 406
-
-Metrics/CyclomaticComplexity:
-  Max: 24
-
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes.
-# URISchemes: http, https
+# This cop conflicts with other cops
 Metrics/LineLength:
   Enabled: false
 
-# Offense count: 63
-# Configuration parameters: CountComments.
+# server interceptor requires this length
 Metrics/MethodLength:
-  Max: 88
-
-# Configuration parameters: CountComments.
-Metrics/ModuleLength:
-  Max: 1000
-
-Performance/RedundantBlockCall:
-  Enabled: false
-
-Style/PercentLiteralDelimiters:
-  Enabled: false
+  Max: 30

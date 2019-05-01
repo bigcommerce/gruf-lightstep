@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2017-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -25,11 +27,11 @@ module Gruf
       # @property [Hash<Symbol|Array<String>>] Hash mapping of metadata keys
       #
       OT_KEYS = {
-        parent_span_id: %w(ot-tracer-parentspanid OT-Tracer-ParentSpanId HTTP_X_OT_TRACER_PARENTSPANID),
-        span_id: %w(ot-tracer-spanid OT-Tracer-SpanId HTTP_X_OT_TRACER_SPANID),
-        trace_id: %w(ot-tracer-traceid OT-Tracer-TraceId HTTP_X_OT_TRACER_TRACEID),
-        sampled: %w(ot-tracer-sampled OT-Tracer-Sampled HTTP_X_OT_TRACER_SAMPLED),
-        flags: %w(ot-tracer-flags OT-Tracer-Flags HTTP_X_OT_TRACER_FLAGS)
+        parent_span_id: %w[ot-tracer-parentspanid OT-Tracer-ParentSpanId HTTP_X_OT_TRACER_PARENTSPANID],
+        span_id: %w[ot-tracer-spanid OT-Tracer-SpanId HTTP_X_OT_TRACER_SPANID],
+        trace_id: %w[ot-tracer-traceid OT-Tracer-TraceId HTTP_X_OT_TRACER_TRACEID],
+        sampled: %w[ot-tracer-sampled OT-Tracer-Sampled HTTP_X_OT_TRACER_SAMPLED],
+        flags: %w[ot-tracer-flags OT-Tracer-Flags HTTP_X_OT_TRACER_FLAGS]
       }.freeze
 
       delegate :has_key?, :key?, to: :metadata

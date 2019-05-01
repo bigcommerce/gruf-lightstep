@@ -2,6 +2,9 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+- Add `frozen_string_literal: true` to all files
+- Deprecate ruby 2.2 support
+
 h3. 1.1.3
 
 - Bump bc-lightstep-ruby to 1.2.0

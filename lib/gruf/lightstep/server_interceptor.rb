@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright (c) 2017-present, BigCommerce Pty. Ltd. All rights reserved
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -91,7 +93,7 @@ module Gruf
       # @return [Array]
       #
       def error_classes
-        options.fetch(:error_classes, %w(GRPC::Unknown GRPC::Internal GRPC::DataLoss GRPC::FailedPrecondition GRPC::Unavailable GRPC::DeadlineExceeded GRPC::Cancelled))
+        options.fetch(:error_classes, %w[GRPC::Unknown GRPC::Internal GRPC::DataLoss GRPC::FailedPrecondition GRPC::Unavailable GRPC::DeadlineExceeded GRPC::Cancelled])
       end
     end
   end
