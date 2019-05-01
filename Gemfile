@@ -19,6 +19,8 @@ gem 'gruf', '~> 2.4'
 
 group :development do
   gem 'bundler-audit'
+  gem 'rspec', '~> 3.8'
+  gem 'rspec_junit_formatter', '~> 0.4.1'
   gem 'rubocop'
   gem 'simplecov', require: false
 end
