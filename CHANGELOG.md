@@ -2,6 +2,10 @@ Changelog for the gruf-zipkin gem.
 
 h3. Pending Release
 
+h3. 1.2.1
+
+- Ensure boundary span has `span.kind` set
+
 h3. 1.2.0
 
 - Add `frozen_string_literal: true` to all files
