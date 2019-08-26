@@ -35,6 +35,7 @@ describe Gruf::Lightstep::ServerInterceptor do
     )
   end
   let(:errors) { Gruf::Error.new }
+  let(:span) { double(:span, set_tag: true) }
   let(:interceptor) { described_class.new(request, errors, options) }
 
   describe '.call' do
@@ -47,7 +48,11 @@ describe Gruf::Lightstep::ServerInterceptor do
     end
 
     it 'should trace the request' do
-      expect(tracer).to receive(:start_span).once
+      expect(tracer).to receive(:start_span).once.and_yield(span)
+      expect(span).to receive(:set_tag).with('grpc.method', request.method_key).ordered
+      expect(span).to receive(:set_tag).with('grpc.request_class', request.request_class).ordered
+      expect(span).to receive(:set_tag).with('grpc.service', request.service_key).ordered
+      expect(span).to receive(:set_tag).with('span.kind', 'server').ordered
       subject
     end
 
@@ -62,7 +67,6 @@ describe Gruf::Lightstep::ServerInterceptor do
 
     context 'when it errors' do
       let(:exception) { GRPC::Internal.new }
-      let(:span) { double(:span, set_tag: true) }
       subject { interceptor.call { raise exception } }
 
       it 'should trace the request with a tag' do
