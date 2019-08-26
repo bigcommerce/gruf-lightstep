@@ -38,6 +38,7 @@ module Gruf
           span.set_tag('grpc.method', request.method_key)
           span.set_tag('grpc.request_class', request.request_class)
           span.set_tag('grpc.service', request.service_key)
+          span.set_tag('span.kind', 'server')
 
           whitelist.each do |param|
             span.set_tag(param.to_s, params[param]) if params.key?(param)
