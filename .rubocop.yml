@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.6
   Exclude:
     - spec/**/*
     - .bundle/**/*
@@ -7,8 +7,6 @@ AllCops:
     - vendor/**/*
     - tmp/**/*
     - log/**/*
-    - Rakefile
-    - gruf-lightstep.gemspec
 
 # Allow *VALID_CONFIG_KEYS.keys
 Lint/AmbiguousOperator:
@@ -19,9 +17,31 @@ Metrics/AbcSize:
   Max: 50
 
 # This cop conflicts with other cops
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 # server interceptor requires this length
 Metrics/MethodLength:
   Max: 30
+
+# New rubocop-required cops
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true

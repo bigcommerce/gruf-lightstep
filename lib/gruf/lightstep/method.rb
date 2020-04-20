@@ -35,7 +35,7 @@ module Gruf
       end
 
       ##
-      # @return [Gruf::Zipkin::Headers]
+      # @return [Gruf::Lightstep::Headers]
       #
       def headers
         @headers ||= Gruf::Lightstep::Headers.new(@active_call)
