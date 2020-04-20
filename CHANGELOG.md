@@ -2,6 +2,8 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+### 1.3.0
+
 - Bump Ruby requirement to 2.6+
 - Bump bc-lightstep-ruby dependency to 2.0+
 - Explicitly declare gruf requirement in gemspec
