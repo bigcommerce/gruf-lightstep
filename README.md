@@ -14,18 +14,24 @@ Then in an initializer or before use, after loading gruf:
 
 ```ruby
 require 'gruf/lightstep'
-
-Gruf::Lightstep.configure do |c|
-  c.component_name = 'myapp'
-  c.access_token = 'abcdefg'
-  c.host = 'my.lightstep.service.io'
-  c.port = 8080
-  c.verbosity = 1
-end
-Gruf::Lightstep.start
 ```
 
-Then after, in your gruf initializer:
+### Configuration
+
+You can use the following ENV vars to configure lightstep:
+
+| Name | Description |
+| ---- | ---- |
+|LIGHTSTEP_ACCESS_TOKEN|LightStep access token, if used in your satellites|
+|LIGHTSTEP_COMPONENT_NAME|The name of your service| 
+|LIGHTSTEP_HOST|The host of your lightstep satellites|
+|LIGHTSTEP_PORT|The port of your lightstep satellites|
+
+See more configuration here: https://github.com/bigcommerce/bc-lightstep-ruby#environment-config
+
+### Server Interceptors
+
+In your gruf initializer:
 
 ```ruby
 Gruf.configure do |c|
