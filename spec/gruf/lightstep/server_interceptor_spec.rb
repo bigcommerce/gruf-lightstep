@@ -112,8 +112,8 @@ describe Gruf::Lightstep::ServerInterceptor do
       end
     end
 
-    context 'with request param whitelist' do
-      let(:options) { { whitelist: ['uuid'] } }
+    context 'with request param allowlist' do
+      let(:options) { { allowlist: ['uuid'] } }
       let(:span) { double(:span, set_tag: true) }
 
       it 'should only trace the uuid request param' do

@@ -2,6 +2,8 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+- Move from whitelist -> allowlist in server interceptor
+
 ### 1.3.0
 
 - Bump Ruby requirement to 2.6+
@@ -26,7 +28,7 @@ Changelog for the gruf-lightstep gem.
 
 - First OSS release
 - Explicitly require bc-lightstep-ruby dependency
-- Add option to whitelist request params to lightstep as span tags
+- Add option to allowlist request params to lightstep as span tags
 
 ### 1.1.1
 
