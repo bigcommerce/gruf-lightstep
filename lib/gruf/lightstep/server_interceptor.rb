@@ -25,13 +25,10 @@ module Gruf
       # Handle the gruf around hook and trace sampled requests
       #
       def call(&_block)
-        return yield if options.fetch(:ignore_methods, []).include?(request.method_name)
+        return yield if ignore_methods.include?(request.method_name)
 
         result = nil
-
-        whitelist = options.fetch(:whitelist, []).map(&:to_s).map(&:to_sym)
         params = request_message_params
-
         tracer = ::Bigcommerce::Lightstep::Tracer.instance
         tracer.clear_active_span! # because we're always starting from the top on a gRPC boundary
         tracer.start_span(request.method_name, context: request_method.headers.to_h) do |span|
@@ -40,7 +37,7 @@ module Gruf
           span.set_tag('grpc.service', request.service_key)
           span.set_tag('span.kind', 'server')
 
-          whitelist.each do |param|
+          allowlist.each do |param|
             span.set_tag(param.to_s, params[param]) if params.key?(param)
           end
 
@@ -58,6 +55,19 @@ module Gruf
       end
 
       private
+
+      ##
+      # @return [Array<String>]
+      def ignore_methods
+        @ignore_methods ||= options.fetch(:ignore_methods, nil) || []
+      end
+
+      ##
+      # @return [Array<Symbol>]
+      #
+      def allowlist
+        @allowlist ||= (options.fetch(:allowlist, nil) || []).map(&:to_s).map(&:to_sym)
+      end
 
       ##
       # @param [StandardError]
