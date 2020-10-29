@@ -2,6 +2,8 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+### 1.4.0
+
 - Ensure `error` span tag is always set when an exception is raised 
 - Move from whitelist -> allowlist in server interceptor
 
