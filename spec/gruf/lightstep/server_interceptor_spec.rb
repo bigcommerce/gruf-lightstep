@@ -86,7 +86,7 @@ describe Gruf::Lightstep::ServerInterceptor do
         it 'should trace the request as a grpc error but not a span error' do
           expect {
             expect(tracer).to receive(:start_span).once.and_yield(span)
-            expect(span).to_not receive(:set_tag).with('error', true)
+            expect(span).to receive(:set_tag).with('error', false)
             expect(span).to receive(:set_tag).with('grpc.error', true).ordered
             expect(span).to receive(:set_tag).with('grpc.error_code', exception.code).ordered
             expect(span).to receive(:set_tag).with('grpc.error_class', exception.class).ordered
@@ -101,7 +101,7 @@ describe Gruf::Lightstep::ServerInterceptor do
         it 'should trace the request as a non grpc error' do
           expect {
             expect(tracer).to receive(:start_span).once.and_yield(span)
-            expect(span).to_not receive(:set_tag).with('error', true)
+            expect(span).to receive(:set_tag).with('error', false)
             expect(span).to receive(:set_tag).with('grpc.error', true).ordered
             expect(span).to receive(:set_tag).with('grpc.error_code', ::Gruf::Lightstep.default_error_code).ordered
             expect(span).to receive(:set_tag).with('grpc.error_class', exception.class).ordered

@@ -21,6 +21,8 @@ module Gruf
     # Intercepts inbound calls to provide LightStep tracing
     #
     class ServerInterceptor < Gruf::Interceptors::ServerInterceptor
+      DEFAULT_ERROR_CLASSES = %w[GRPC::Unknown GRPC::Internal GRPC::DataLoss GRPC::FailedPrecondition GRPC::Unavailable GRPC::DeadlineExceeded GRPC::Cancelled].freeze
+
       ##
       # Handle the gruf around hook and trace sampled requests
       #
@@ -44,7 +46,7 @@ module Gruf
           begin
             result = yield
           rescue StandardError => e
-            span.set_tag('error', true) if error?(e)
+            span.set_tag('error', error?(e))
             span.set_tag('grpc.error', true)
             span.set_tag('grpc.error_code', code_for(e))
             span.set_tag('grpc.error_class', e.class)
@@ -104,7 +106,7 @@ module Gruf
       # @return [Array]
       #
       def error_classes
-        options.fetch(:error_classes, %w[GRPC::Unknown GRPC::Internal GRPC::DataLoss GRPC::FailedPrecondition GRPC::Unavailable GRPC::DeadlineExceeded GRPC::Cancelled])
+        @error_classes ||= (options.fetch(:error_classes, nil) || DEFAULT_ERROR_CLASSES)
       end
     end
   end
