@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'lib/**/*', 'gruf-lightstep.gemspec']
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '~> 2.6'
+  spec.required_ruby_version = '>= 2.6'
 
   spec.add_development_dependency 'bundler', '~> 1.11'
   spec.add_development_dependency 'bundler-audit', '~> 0.6'

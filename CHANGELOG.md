@@ -2,6 +2,8 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+- Add official support for Ruby 3 
+
 ### 1.4.0
 
 - Ensure `error` span tag is always set when an exception is raised 
