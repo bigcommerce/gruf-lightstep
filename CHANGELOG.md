@@ -2,6 +2,8 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+- Remove unnecessarily strict dev dependencies
+
 ### 1.5.0
 
 - Add official support for Ruby 3 

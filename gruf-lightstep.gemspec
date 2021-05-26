@@ -34,14 +34,13 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.6'
 
-  spec.add_development_dependency 'bundler', '~> 1.11'
-  spec.add_development_dependency 'bundler-audit', '~> 0.6'
+  spec.add_development_dependency 'bundler-audit', '>= 0.6'
   spec.add_development_dependency 'pry', '>= 0.13'
   spec.add_development_dependency 'rake', '>= 12.0'
-  spec.add_development_dependency 'rspec', '~> 3.8'
-  spec.add_development_dependency 'rspec_junit_formatter', '~> 0.4'
-  spec.add_development_dependency 'rubocop', '~> 0.82'
-  spec.add_development_dependency 'simplecov', '~> 0.15'
+  spec.add_development_dependency 'rspec', '>= 3.8'
+  spec.add_development_dependency 'rspec_junit_formatter', '>= 0.4'
+  spec.add_development_dependency 'rubocop', '>= 0.82'
+  spec.add_development_dependency 'simplecov', '>= 0.15'
 
   spec.add_runtime_dependency 'bc-lightstep-ruby', '~> 2.2'
   spec.add_runtime_dependency 'gruf', '>= 2.4', '< 3'
