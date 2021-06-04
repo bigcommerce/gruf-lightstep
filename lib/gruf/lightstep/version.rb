@@ -17,6 +17,6 @@
 #
 module Gruf
   module Lightstep
-    VERSION = '1.5.1'
+    VERSION = '1.5.2.pre'
   end
 end
