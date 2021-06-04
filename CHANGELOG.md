@@ -2,6 +2,8 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+### 1.5.1
+
 - Remove unnecessarily strict dev dependencies
 
 ### 1.5.0
