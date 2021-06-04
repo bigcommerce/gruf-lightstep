@@ -44,7 +44,7 @@ module Gruf
         return unless tracer
 
         span = tracer.active_span
-        return unless span&.is_a?(::LightStep::Span)
+        return unless span.is_a?(::LightStep::Span)
 
         span
       end
