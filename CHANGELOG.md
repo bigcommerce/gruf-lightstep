@@ -2,6 +2,9 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+- Add support for Ruby 3.2
+- Drop support for Ruby 2.7 (EOL March 2023)
+
 ### 1.6.0
 
 - Add support for Ruby 3.1
