@@ -2,6 +2,8 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+- Use default value of `'true'` for the `ot-tracer-sampled` value in the client interceptor instead of `'1'`
+
 ### 1.7.0
 
 - Add support for Ruby 3.2
