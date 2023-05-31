@@ -28,7 +28,7 @@ module Gruf
           logger.debug "[gruf-lightstep] Injecting current active span #{span_data[:span_guid]} into outbound request context for #{request_context.method_name}"
           request_context.metadata['ot-tracer-spanid'] = span_data[:span_guid].to_s
           request_context.metadata['ot-tracer-traceid'] = span_data[:trace_guid].to_s
-          request_context.metadata['ot-tracer-sampled'] = '1'
+          request_context.metadata['ot-tracer-sampled'] = 'true'
         end
 
         yield
