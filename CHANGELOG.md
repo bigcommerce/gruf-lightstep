@@ -2,6 +2,8 @@ Changelog for the gruf-lightstep gem.
 
 ### Pending Release
 
+- Add CI suite for Ruby 3.3
+
 ### 1.7.1
 
 - Use default value of `'true'` for the `ot-tracer-sampled` value in the client interceptor instead of `'1'`
@@ -22,11 +24,11 @@ Changelog for the gruf-lightstep gem.
 
 ### 1.5.0
 
-- Add official support for Ruby 3 
+- Add official support for Ruby 3
 
 ### 1.4.0
 
-- Ensure `error` span tag is always set when an exception is raised 
+- Ensure `error` span tag is always set when an exception is raised
 - Move from whitelist -> allowlist in server interceptor
 
 ### 1.3.0

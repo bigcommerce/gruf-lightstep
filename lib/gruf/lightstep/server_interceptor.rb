@@ -106,7 +106,7 @@ module Gruf
       # @return [Array]
       #
       def error_classes
-        @error_classes ||= (options.fetch(:error_classes, nil) || DEFAULT_ERROR_CLASSES)
+        @error_classes ||= options.fetch(:error_classes, nil) || DEFAULT_ERROR_CLASSES
       end
     end
   end
