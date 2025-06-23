@@ -32,10 +32,10 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'lib/**/*', 'gruf-lightstep.gemspec']
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 3.0', '< 4'
+  spec.required_ruby_version = '>= 3.2', '< 4'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
-  spec.add_runtime_dependency 'bc-lightstep-ruby', '~> 2.2'
-  spec.add_runtime_dependency 'gruf', '>= 2.4', '< 3'
-  spec.add_runtime_dependency 'rake', '>= 12'
+  spec.add_dependency 'bc-lightstep-ruby', '>= 2.8'
+  spec.add_dependency 'gruf', '>= 2.4', '< 3'
+  spec.add_dependency 'rake', '>= 12'
 end
