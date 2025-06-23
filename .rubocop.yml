@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
   Exclude:
     - spec/**/*
     - .bundle/**/*
@@ -7,6 +7,11 @@ AllCops:
     - vendor/**/*
     - tmp/**/*
     - log/**/*
+plugins:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+  - rubocop-thread_safety
 
 # Allow *VALID_CONFIG_KEYS.keys
 Lint/AmbiguousOperator:

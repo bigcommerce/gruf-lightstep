@@ -23,6 +23,10 @@ gem 'rake', '>= 12.0'
 gem 'rspec', '>= 3.8'
 gem 'rspec_junit_formatter', '>= 0.4'
 gem 'rubocop', '>= 0.82'
+gem 'rubocop-performance'
+gem 'rubocop-rake'
+gem 'rubocop-rspec'
+gem 'rubocop-thread_safety'
 gem 'simplecov', '>= 0.15'
 
 gemspec
